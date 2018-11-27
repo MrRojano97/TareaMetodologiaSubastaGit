@@ -13,9 +13,9 @@ public class Usuario {
     private double gastosTotales = 0;
     private String nombre;
     private int cantidadComprados = 0;
-    private String tipo;
+    private int tipo;
 
-    public Usuario(String nombre, String tipo) {
+    public Usuario(String nombre, int tipo) {
         this.nombre = nombre;
         this.tipo = tipo;
     }
@@ -33,7 +33,11 @@ public class Usuario {
     }
 
     public String getTipo() {
-        return tipo;
+        if (tipo==0)
+            return "Vendedor";
+        else if (tipo==1)
+            return "Comprador";
+        return "Observador";
     }
     
     public void addGastosTotales(double aumenta) {

@@ -17,6 +17,9 @@ public class Main {
         // TODO code application logic here
         System.out.println("Caso Subastas Prototipo");
         System.out.println("Elías Avendaño");
+        
+        Feria feria = new Feria();
+        feria.inicio();
     }
     
 }
