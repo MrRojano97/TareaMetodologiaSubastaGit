@@ -15,7 +15,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Probando");
+        System.out.println("Caso Subastas Prototipo");
+        System.out.println("Elías Avendaño");
     }
     
 }
