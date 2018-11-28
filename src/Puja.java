@@ -10,19 +10,19 @@
  */
 public class Puja {
     private double dinero;
-    private String nombreUsuario;
+    private Usuario usuario;
 
-    public Puja(double dinero, String nombreUsuario) {
+    public Puja(double dinero, Usuario usuario) {
         this.dinero = dinero;
-        this.nombreUsuario = nombreUsuario;
+        this.usuario = usuario;
     }
 
     public double getDinero() {
         return dinero;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
     
     
