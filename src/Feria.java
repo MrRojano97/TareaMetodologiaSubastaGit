@@ -19,6 +19,7 @@ public class Feria {
     private List<Usuario> usuarios = new ArrayList<>();
     Scanner teclado = new Scanner(System.in);
     private Usuario usuarioActual;
+    private Articulo articulotemporal;
     
     private void iniciarSesion (Usuario usuario) {
         this.usuarioActual=usuario;
@@ -48,34 +49,45 @@ public class Feria {
         String nombre = teclado.nextLine();
         System.out.print("Ingrese descripción del artículo: ");
         String desc = teclado.nextLine();
-        System.out.print("Ingres precio base del artículo: ");
+        System.out.print("Ingrese precio base del artículo: ");
         double precio = Double.parseDouble((teclado.nextLine()));
         articulos.add(new Articulo (nombre, precio, desc, usuarioActual));
     }
     
     private void listarArticulos(){
-        for (int x = 0;  x < articulos.size(); x++) {
-            System.out.print(x);
-            System.out.print(". ");
-            System.out.println(articulos.get(x).getNombre());
+        if (articulos.size()>0) {
+            for (int x = 0;  x < articulos.size(); x++) {
+                System.out.print(x);
+                System.out.print(". ");
+                System.out.println(articulos.get(x).getNombre());
+            }
         }
+        else
+            System.out.println("No hay artículos para ver aún");
     }
     
     private void infoArticulo(Articulo articulo){
+        System.out.println("INFORMACIÓN DEL ARTÍCULO");
+        System.out.print("Nombre del artículo: ");
         System.out.println(articulo.getNombre());
+        System.out.print("Estado: ");
+        articulo.getVendido();
+        System.out.print("Descripción del artículo: ");
         System.out.println(articulo.getDescripcion());
-        System.out.println(articulo.getPrecioBase());
-        System.out.println(articulo.getVendedor());
+        
         
         int ultimaPuja=0;
         System.out.print("Precio más alto: ");
-        if (articulo.getPujas().size()>=0) {
+        if (articulo.getPujas().size()>0) {
             ultimaPuja=articulo.getPujas().size()-1;
             System.out.println(articulo.getPujas().get(ultimaPuja).getDinero());
         }
         
         else
             System.out.println(articulo.getPrecioBase());
+        
+        System.out.print("Vendedor: ");
+        System.out.println(articulo.getVendedor().getNombre());
     }
     
     private void listarPujas(Articulo articulo){
@@ -87,22 +99,57 @@ public class Feria {
         boolean salir=false;
         
         while (!salir) {
+            System.out.println("Seleccione una opción: ");
             if (usuarioActual.equals(articulo.getVendedor()))
                 System.out.println("0. Modificar Articulo");
+            
+            if (!articulo.isVendido()) {
+                System.out.println("1. Ofertar dinero");
+                System.out.println("2. Ver pujas actuales");
+                
+            }
+            System.out.println("3. Mostrar información del artículo");
+            System.out.println("4. Volver atrás");
 
-            System.out.println("1. Ofertar dinero");
-            System.out.println("2. Ver pujas actuales");
-            System.out.println("3. Volver atrás");
-
+            System.out.print("Selección: ");
             int opcion = Integer.parseInt(teclado.nextLine());
-
-            if (opcion==1)
+            
+            if (opcion==0) {
+                if (usuarioActual.equals(articulo.getVendedor())) {
+                    System.out.println("Seleccione una opción: ");
+                    System.out.println("0. Establecer Vendido");
+                    System.out.println("1. Modificar nombre");
+                    System.out.println("2. Modificar descripción");
+                    System.out.println("3. Volver atrás");
+                    System.out.print("Opcion: ");
+                    int opcion1 = Integer.parseInt(teclado.nextLine());
+                    
+                    if (opcion1==0)
+                        articulo.setVendido(true);
+                    else if (opcion1==1) {
+                        System.out.print("Ingrese nuevo nombre: ");
+                        articulo.setNombre((teclado.nextLine()));
+                    }
+                    else if (opcion==2) {
+                        System.out.print("Ingrese nueva descripción: ");
+                        articulo.setDescripcion(teclado.nextLine());
+                    }
+                    
+                    else
+                        break;
+                }
+            }
+            
+            else if (opcion==1)
                 articulo.addPuja(ofertar());
 
             else if (opcion==2)
                 listarPujas(articulo);
             
             else if (opcion==3)
+                infoArticulo(articulo);
+            
+            else if (opcion==4)
                 salir=true;
         
         }
@@ -154,15 +201,33 @@ public class Feria {
             System.out.println("Selecciona una opción: ");
             System.out.println("1. Mostrar artículos disponibles");
             System.out.println("2. Vender un artículo");
-            
+            System.out.println("3. Cerrar Sesión");
+            System.out.println("4. Cerrar Programa");
+            System.out.print("Opción: ");
             int opcion = Integer.parseInt(teclado.nextLine());
-            
+
             if (opcion==1) {
-                listarArticulos();
                 
+                if (articulos.size()>0) {
+                    System.out.println("Escriba el número del artículo que desea consultar:");
+                    listarArticulos();
+                    System.out.print("Selección: ");
+                    articulotemporal=articulos.get(Integer.parseInt(teclado.nextLine()));
+                    opcionesArticulo(articulotemporal);
+                }
+                
+                else
+                    System.out.println("No hay artículos para mostrar");
+
             }
             else if (opcion==2)
                 anadirArticulo();
+            
+            else if (opcion==3)
+                usuarioActual=null;
+            
+            else if (opcion==4)
+                salir=true;
                 
         }
     }

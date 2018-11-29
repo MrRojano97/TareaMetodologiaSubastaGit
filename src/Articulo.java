@@ -35,10 +35,18 @@ public class Articulo {
         return precioBase;
     }
 
+    public void getVendido() {
+        if (vendido==true)
+            System.out.println("Vendido");
+        else
+            System.out.println("A la venta"); 
+    }
+
     public boolean isVendido() {
         return vendido;
     }
 
+    
     public String getDescripcion() {
         return descripcion;
     }
@@ -52,18 +60,42 @@ public class Articulo {
             System.out.print(x);
             System.out.print(". ");
             System.out.print(pujas.get(x).getDinero());
-            System.out.println(" ; ");
-            System.out.println(pujas.get(x).getUsuario());
+            System.out.print(" ; ");
+            System.out.println(pujas.get(x).getUsuario().getNombre());
         }
     }
     
     public void addPuja(Puja puja){
-        pujas.add(puja);
+        double maxValor;
+        if (pujas.size()>0) {
+            maxValor = pujas.get(pujas.size()-1).getDinero();
+        }
+        else
+            maxValor=precioBase;
+        
+        if (maxValor<puja.getDinero())
+            pujas.add(puja);
+        else
+            System.out.println("Puja no realizada, por favor ingrese un monto mayor al precio más alto");
     }
 
     public List<Puja> getPujas() {
         return pujas;
     }
+
+    public void setVendido(boolean vendido) {
+        this.vendido = vendido;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    
     
     
     
