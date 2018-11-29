@@ -10,21 +10,22 @@ import java.util.Scanner;
  */
 
 /**
- *
+ * Clase principal del programa
  * @author elias
  */
 public class Feria {
     
-    private List<Articulo> articulos = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Articulo> articulos = new ArrayList<>(); //Lista de Artículos que se pueden vender
+    private List<Usuario> usuarios = new ArrayList<>(); //Lista de Usuarios
     Scanner teclado = new Scanner(System.in);
-    private Usuario usuarioActual;
-    private Articulo articulotemporal;
+    private Usuario usuarioActual; //Usuario que actualmente tiene la sesión iniciada
+    private Articulo articulotemporal; //Artículo actual en  consulta
     
-    private void iniciarSesion (Usuario usuario) {
-        this.usuarioActual=usuario;
-    }
-    
+    /**
+     * Acá se registra un nombre como un usuario del tipo "tipo".
+     * @param nombre
+     * @param tipo 
+     */
     private void registrarAnadir (String nombre, int tipo){
         usuarios.add(new Usuario(nombre, tipo));
     }
@@ -32,7 +33,7 @@ public class Feria {
     private void registrarDatos () {
         System.out.println("Ingrese su nombre: ");
         String nombre = teclado.nextLine();
-        System.out.println("¿Será vendedor (0) o comprador (1)?");
+        System.out.println("¿Será Vendedor (0), Comprador (1) u Observador (2)?");
         int tipo = Integer.parseInt(teclado.nextLine());
         
         registrarAnadir (nombre, tipo);
@@ -103,11 +104,10 @@ public class Feria {
             if (usuarioActual.equals(articulo.getVendedor()))
                 System.out.println("0. Modificar Articulo");
             
-            if (!articulo.isVendido()) {
+            if (!articulo.isVendido() && usuarioActual.getTipo().equals("Comprador")) {
                 System.out.println("1. Ofertar dinero");
-                System.out.println("2. Ver pujas actuales");
-                
             }
+            System.out.println("2. Ver pujas del artículo");
             System.out.println("3. Mostrar información del artículo");
             System.out.println("4. Volver atrás");
 
@@ -200,7 +200,8 @@ public class Feria {
             
             System.out.println("Selecciona una opción: ");
             System.out.println("1. Mostrar artículos disponibles");
-            System.out.println("2. Vender un artículo");
+            if (usuarioActual.getTipo().equals("Vendedor"))
+                System.out.println("2. Vender un artículo");
             System.out.println("3. Cerrar Sesión");
             System.out.println("4. Cerrar Programa");
             System.out.print("Opción: ");

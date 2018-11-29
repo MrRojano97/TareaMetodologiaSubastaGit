@@ -94,11 +94,6 @@ public class Articulo {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
-    
-    
-    
-    
+
     
 }
